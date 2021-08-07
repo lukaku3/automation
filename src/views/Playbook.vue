@@ -78,14 +78,11 @@ export default defineComponent({
     mkModalBody: function (id: number) {
       let parent: Element | null = document.querySelector('.modal-body div')
       for (const [key, value] of Object.entries(this.playbooks[(id-1)])) {
-        console.log(`${key}: ${value}`);
         let div: Element = document.createElement('div')
         div.className = 'mb-3'
-        console.log(div)
         let lbl: Element = document.createElement('label')
         lbl.className = 'form-label'
         lbl.innerHTML = `${key}`
-        console.log(lbl)
         let inp: Element = document.createElement('input')
         inp.setAttribute("type", "text")
         inp.setAttribute("value", `${value}`)
