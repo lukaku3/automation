@@ -7,7 +7,7 @@
 <!--          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
         </div>
         <div class="modal-body">
-          <p>開きました！！</p>
+          <div></div>
         </div>
         <div class="modal-footer">
           <button type="button" v-on:click="$emit('close')" class="btn btn-primary">戻る </button>
@@ -20,7 +20,14 @@
 
 <script>
 export default {
-  name: "MyModal"
+  name: "MyModal",
+  // methods: {
+  //   openModal: function($event) {
+  //     // this.showContent = true;
+  //     console.log('open', $event);
+  //     // this.initModal()
+  //   },
+  // }
 }
 </script>
 

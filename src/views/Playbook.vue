@@ -18,7 +18,7 @@
             <tbody>
             <tr v-for="(item, idx) in playbooks" :key="idx">
               <td>{{item.id}}</td>
-              <td @click="openModal"><u>{{item.name}}</u></td>
+              <td @click="openModal(item.id)"><u>{{item.name}}</u></td>
               <td>{{item.ipAddress}}</td>
             </tr>
             </tbody>
@@ -63,9 +63,37 @@ export default defineComponent({
     closeModal: function() {
       this.showContent = false;
     },
-    openModal: function() {
+    openModal: function(id: number) {
       this.showContent = true;
-      console.log('open');
+      this.initModal()
+      this.mkModalBody(id)
+    },
+    initModal: function () {
+      let el: Element | null = document.querySelector('.modal-body div');
+      el?.remove();
+      let new_div = document.createElement('div');
+      let parent: Element | null = document.querySelector('.modal-body');
+      parent?.append(new_div);
+    },
+    mkModalBody: function (id: number) {
+      let parent: Element | null = document.querySelector('.modal-body div')
+      for (const [key, value] of Object.entries(this.playbooks[(id-1)])) {
+        console.log(`${key}: ${value}`);
+        let div: Element = document.createElement('div')
+        div.className = 'mb-3'
+        console.log(div)
+        let lbl: Element = document.createElement('label')
+        lbl.className = 'form-label'
+        lbl.innerHTML = `${key}`
+        console.log(lbl)
+        let inp: Element = document.createElement('input')
+        inp.setAttribute("type", "text")
+        inp.setAttribute("value", `${value}`)
+        inp.className = 'form-control'
+        div.appendChild(lbl)
+        div.appendChild(inp)
+        parent?.appendChild(div)
+      }
 
     }
   },
