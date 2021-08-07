@@ -16,50 +16,61 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(item, idx) in items" :key="idx">
+            <tr v-for="(item, idx) in playbooks" :key="idx">
               <td>{{item.id}}</td>
               <td @click="openModal"><u>{{item.name}}</u></td>
               <td>{{item.ipAddress}}</td>
             </tr>
             </tbody>
           </table>
-          <Modal v-show="showContent" @close="showContent = false"></Modal>
         </div>
       </div>
+      <MyModal  v-show="showContent" @close="showContent = false"></MyModal>
     </div>
   </main>
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
-
-// interface Playbook {
-//   id: number;
-//   name: string;
-//   ipAddress: string;
-// }
+import {computed, defineComponent} from "vue";
+import {useStore} from "vuex";
+import MyModal from "../components/ModalComponent.vue";
 
 export default defineComponent({
   name: 'Playbook',
   el: 'playbook',
-  data: function() {
+  setup() {
+    const store = useStore()
     return {
-      title: 'playbook',
-      showContent: false,
-      items: [
-        {id: 1, name: "Foo", ipAddress: "127.0.10.10"},
-        {id: 2, name: "Bar", ipAddress: "127.0.10.11"},
-        {id: 3, name: "Bazz", ipAddress: "127.0.10.12"},
-      ]
+      count: computed(() => store.state.playbooks.length ),
+      playbooks: computed(() => store.state.playbooks ),
     }
   },
+  data: function() {
+    return {
+      showContent: false,
+      title: 'playbook',
+    }
+  },
+  components: {
+    MyModal
+  },
+  provide() {
+    return {
+      // provideData: this.items,
+    }
+  },
+  methods: {
+    closeModal: function() {
+      this.showContent = false;
+    },
+    openModal: function() {
+      this.showContent = true;
+      console.log('open');
 
-  props: {
-  //   items: [
-  //     {id: 1, name: "Foo", ipAddress: "127.0.10.10"},
-  //     {id: 2, name: "Bar", ipAddress: "127.0.10.11"},
-  //     {id: 3, name: "Bazz", ipAddress: "127.0.10.12"},
-  //   ],
-  }
+    }
+  },
 });
 </script>
+
+<style scoped>
+</style>

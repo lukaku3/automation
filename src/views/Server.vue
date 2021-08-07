@@ -16,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(item, idx) in items" :key="idx">
+            <tr v-for="(item, idx) in servers" :key="idx">
               <td>{{item.id}}</td>
               <td @click="openModal"><u>{{item.name}}</u></td>
               <td>{{item.ipAddress}}</td>
@@ -31,22 +31,24 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
+import {computed, defineComponent} from "vue";
+import {useStore} from "vuex";
 import MyModal from "../components/ModalComponent.vue";
 
 export default defineComponent({
-
   name: 'Server',
   el: 'server',
+  setup() {
+    const store = useStore()
+    return {
+      count: computed(() => store.state.servers.length ),
+      servers: computed(() => store.state.servers ),
+    }
+  },
   data: function() {
     return {
       showContent: false,
       title: 'server',
-      items: [
-        {id: 1, name: "Foo", ipAddress: "127.0.10.10"},
-        {id: 2, name: "Bar", ipAddress: "127.0.10.11"},
-        {id: 3, name: "Bazz", ipAddress: "127.0.10.12"},
-      ]
     }
   },
   components: {
@@ -54,7 +56,7 @@ export default defineComponent({
   },
   provide() {
     return {
-      provideData: this.items,
+      // provideData: this.items,
     }
   },
   methods: {
@@ -64,6 +66,7 @@ export default defineComponent({
     openModal: function() {
       this.showContent = true;
       console.log('open');
+
     }
   },
 });
